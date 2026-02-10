@@ -14,6 +14,8 @@ public class DlgEditarNota extends JDialog {
     private NotaDAO notaDAO;
     private Nota notaActual;
     private boolean guardado = false;
+    private Font fontLabels = new Font("SansSerif", Font.BOLD, 14);
+    private Font fontInputs = new Font("SansSerif", Font.PLAIN, 14);
 
 
     public DlgEditarNota(Dialog parent, boolean modal, Nota notaParaEditar) {
@@ -37,22 +39,36 @@ public class DlgEditarNota extends JDialog {
         this.setSize(500, 400);
         this.setLocationRelativeTo(getParent());
         this.setLayout(new BorderLayout(10, 10));
+        this.getContentPane().setBackground(new Color(245, 247, 250));
     }
 
     private void inicializarComponentes() {
 
         JPanel panelForm = new JPanel(new BorderLayout(10, 10)); 
+        panelForm.setOpaque(false); // Para que se vea el color de fondo de la ventana
         
         panelForm.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // margenes
 
-        JPanel panelTitulo = new JPanel(new BorderLayout());
-        panelTitulo.add(new JLabel("Título:"), BorderLayout.NORTH);
+        // Titulo
+        JPanel panelTitulo = new JPanel(new BorderLayout(5, 5));
+        panelTitulo.setOpaque(false);
+        JLabel lblTitulo = new JLabel("Título:");
+        lblTitulo.setFont(fontLabels);
+        panelTitulo.add(lblTitulo, BorderLayout.NORTH);
+        
         txtTitulo = new JTextField();
+        txtTitulo.setFont(fontInputs);
         panelTitulo.add(txtTitulo, BorderLayout.CENTER);
 
-        JPanel panelContenido = new JPanel(new BorderLayout());
-        panelContenido.add(new JLabel("Contenido:"), BorderLayout.NORTH);
+        // Contenido
+        JPanel panelContenido = new JPanel(new BorderLayout(5, 5));
+        panelContenido.setOpaque(false);
+        JLabel lblContenido = new JLabel("Contenido:");
+        lblContenido.setFont(fontLabels);
+        panelContenido.add(lblContenido, BorderLayout.NORTH);
+        
         txtContenido = new JTextArea();
+        txtContenido.setFont(fontInputs);
         txtContenido.setLineWrap(true);
         txtContenido.setWrapStyleWord(true);
         panelContenido.add(new JScrollPane(txtContenido), BorderLayout.CENTER);
@@ -63,9 +79,20 @@ public class DlgEditarNota extends JDialog {
         this.add(panelForm, BorderLayout.CENTER);
 
 
-        JPanel panelBotones = new JPanel();
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBotones.setOpaque(false);
+        
         JButton btnGuardar = new JButton("Guardar");
         JButton btnCancelar = new JButton("Cancelar");
+
+        // Estilos botones
+        btnGuardar.setBackground(new Color(70, 130, 180));
+        btnGuardar.setForeground(Color.WHITE);
+        btnGuardar.setFont(fontLabels);
+        
+        btnCancelar.setBackground(new Color(119, 136, 153));
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setFont(fontLabels);
 
         btnGuardar.addActionListener(e -> accionGuardar());
 
@@ -73,6 +100,8 @@ public class DlgEditarNota extends JDialog {
 
         panelBotones.add(btnGuardar);
         panelBotones.add(btnCancelar);
+        panelBotones.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 20));
+
         this.add(panelBotones, BorderLayout.SOUTH);
     }
 

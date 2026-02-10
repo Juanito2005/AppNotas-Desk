@@ -5,6 +5,7 @@ import dev.juanito.model.Nota;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class DlgListaNotas extends JDialog {
     public DlgListaNotas(Frame parent, boolean modal) {
         super(parent, modal);
         this.setTitle("Lista de Notas");
-        this.setSize(600, 400);
+        this.setSize(700, 450);
         this.setLocationRelativeTo(parent);
+        this.getContentPane().setBackground(new Color(245, 247, 250));
 
         this.notaDAO = new NotaDAO();
 
@@ -40,28 +42,45 @@ public class DlgListaNotas extends JDialog {
         };
 
         tablaNotas = new JTable(modelo);
-        
-        tablaNotas = new JTable(modelo);
 
         // --- MEJORAS VISUALES TABLA ---
-        tablaNotas.setRowHeight(30);
-        tablaNotas.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 13));
+        tablaNotas.setRowHeight(35);
+        tablaNotas.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        tablaNotas.setSelectionBackground(new Color(220, 230, 241));
+        tablaNotas.setSelectionForeground(Color.BLACK);
+        
+        JTableHeader header = tablaNotas.getTableHeader();
+        header.setFont(new Font("SansSerif", Font.BOLD, 14));
+        header.setBackground(new Color(230, 230, 230));
+        header.setForeground(Color.DARK_GRAY);
+
         tablaNotas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         JScrollPane scrollPane = new JScrollPane(tablaNotas);
-        // Añadir un borde blanco alrededor para que respire
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
+        scrollPane.getViewport().setBackground(Color.WHITE);
         
         this.add(scrollPane, BorderLayout.CENTER);
     }
 
     private void configurarBotones() {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
+        panelBotones.setBackground(new Color(245, 247, 250));
 
         JButton btnNueva = new JButton("Nueva nota");
         JButton btnEditar = new JButton("Editar nota");
         JButton btnBorrar = new JButton("Borrar nota");
         JButton btnCerrar = new JButton("Cerrar");
+
+        JButton[] botones = {btnNueva, btnEditar, btnBorrar, btnCerrar};
+        for (JButton btn : botones) {
+            btn.setFont(new Font("SansSerif", Font.BOLD, 13));
+            btn.setBackground(new Color(70, 130, 180));
+            btn.setForeground(Color.WHITE);
+            btn.setFocusPainted(false);
+        }
+
+        btnCerrar.setBackground(new Color(119, 136, 153));
 
         btnNueva.addActionListener(e -> {
             DlgEditarNota dialog = new DlgEditarNota(this, true, null);
